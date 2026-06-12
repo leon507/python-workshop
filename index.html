@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python入门学习工坊 - 25个核心知识点系统学习</title>
+
+  <!-- SEO -->
+  <meta name="description" content="基于Python 3最新语法，用25个核心知识点构建完整的编程基础。从变量与数据类型到文件操作与异常处理，循序渐进，配合闪卡记忆与即时测试，让零基础也能轻松入门。">
+  <meta name="keywords" content="Python,入门教程,编程学习,基础语法,函数,模块,实战案例">
+  <meta name="author" content="leon">
+  <meta name="language" content="zh-CN">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://python-workshop.vercel.app/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Python入门学习工坊">
+  <meta property="og:description" content="25个核心知识点，从零开始掌握Python编程。基础语法、函数、模块、实战案例，渐进式学习让编程触手可及。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://python-workshop.vercel.app/">
+  <meta property="og:image" content="/icon-512.png">
+  <meta property="og:site_name" content="Python入门学习工坊">
+  <meta property="og:locale" content="zh_CN">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Python入门学习工坊">
+  <meta name="twitter:description" content="25个核心知识点，从零开始掌握Python编程。">
+  <meta name="twitter:image" content="/icon-512.png">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0B1120">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Python学习">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/minimal.css">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Python入门学习工坊",
+    "description": "25个核心知识点，从零开始掌握Python编程",
+    "url": "https://python-workshop.vercel.app",
+    "inLanguage": "zh-CN"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Python入门学习工坊",
+    "description": "基于Python 3最新语法，用25个核心知识点构建完整的编程基础",
+    "educationalLevel": "Beginner",
+    "inLanguage": "zh-CN",
+    "numberOfLessons": 25,
+    "coursePrerequisites": "无",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT20M"
+    }
+  }
+  </script>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav" role="navigation" aria-label="主导航">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">
+        <span class="brand-icon">🐍</span>
+        Python学习工坊
+      </a>
+      <ul class="nav-links">
+        <li><a href="/learn.html" class="nav-link">学习</a></li>
+        <li><a href="/flashcard.html" class="nav-link">闪卡</a></li>
+        <li><a href="/roots.html" class="nav-link">索引</a></li>
+        <li><a href="/progress.html" class="nav-link">进度</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <main role="main">
+    <section class="hero" aria-label="网站介绍">
+      <div class="container" style="position:relative;">
+        <h1 class="hero-title">
+          25个核心知识点<br>
+          <span class="highlight">从零开始</span><br>
+          掌握Python编程
+        </h1>
+        <p class="hero-subtitle">基础语法、函数、模块、实战案例，渐进式学习让编程触手可及</p>
+
+        <div class="hero-demo" id="heroDemo">
+          <div class="hero-demo-label">正在展示</div>
+          <div class="hero-demo-word" id="demoWord">-</div>
+          <div class="hero-demo-meaning" id="demoMeaning">-</div>
+          <div class="hero-demo-origin" id="demoOrigin">-</div>
+        </div>
+
+        <div class="btn-group">
+          <a href="/learn.html" class="btn btn-primary btn-large">开始第一个知识点 →</a>
+          <a href="/flashcard.html" class="btn btn-secondary btn-large">闪卡复习</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="container" aria-label="网站统计">
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-value">25</div>
+          <div class="stat-label">核心知识点</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">75+</div>
+          <div class="stat-label">代码示例</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">20分钟</div>
+          <div class="stat-label">每日学习</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-tagline">一行代码，开启编程之旅</div>
+    <p class="footer-description">
+      基于Python 3最新语法，用25个核心知识点构建完整的编程基础。从变量与数据类型到文件操作与异常处理，循序渐进，配合闪卡记忆与即时测试，让零基础也能轻松入门。
+    </p>
+    <div class="footer-links">
+      <a href="/learn.html" class="footer-link">学习</a>
+      <a href="/flashcard.html" class="footer-link">闪卡</a>
+      <a href="/roots.html" class="footer-link">索引</a>
+      <a href="/progress.html" class="footer-link">进度</a>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/wordData.js"></script>
+  <script src="js/siteConfig.js"></script>
+  <script>
+    (function() {
+      // Hero animation - cycle through first 5 concepts
+      const examples = WordRoots.slice(0, 5);
+      let currentIndex = 0;
+
+      function updateDemo() {
+        const example = examples[currentIndex];
+        const wordEl = document.getElementById('demoWord');
+        const meaningEl = document.getElementById('demoMeaning');
+        const originEl = document.getElementById('demoOrigin');
+
+        if (wordEl) wordEl.textContent = example.root;
+        if (meaningEl) meaningEl.textContent = example.meaning;
+        if (originEl) originEl.textContent = example.origin;
+
+        currentIndex = (currentIndex + 1) % examples.length;
+      }
+
+      updateDemo();
+      setInterval(updateDemo, 4000);
+    })();
+  </script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(err => {
+          console.error('SW registration failed:', err);
+        });
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>知识点详情 - Python入门学习工坊</title>
+  <meta name="description" content="深入学习Python核心知识点：详细说明、代码示例和即时测试。">
+  <meta name="keywords" content="Python,知识点,详细说明,代码示例,测试">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0B1120">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/minimal.css">
+</head>
+<body>
+  <nav class="nav" role="navigation" aria-label="主导航">
+    <div class="nav-container">
+      <a href="/" class="nav-brand"><span class="brand-icon">🐍</span>Python学习工坊</a>
+      <ul class="nav-links">
+        <li><a href="/learn.html" class="nav-link">学习</a></li>
+        <li><a href="/flashcard.html" class="nav-link">闪卡</a></li>
+        <li><a href="/roots.html" class="nav-link">索引</a></li>
+        <li><a href="/progress.html" class="nav-link">进度</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container" role="main" style="padding-top: var(--space-2xl); padding-bottom: var(--space-4xl);">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <a href="/">首页</a>
+      <span class="breadcrumb-separator">/</span>
+      <a href="/roots.html">索引</a>
+      <span class="breadcrumb-separator">/</span>
+      <span id="breadcrumbName">-</span>
+    </div>
+
+    <article itemscope itemtype="https://schema.org/Article">
+      <header style="margin-bottom: var(--space-2xl);">
+        <div style="display:flex; align-items:center; gap: var(--space-sm); margin-bottom: var(--space-md);">
+          <span class="root-origin" id="rootOrigin">-</span>
+          <span class="mastered-badge" id="masteredBadge" style="display:none;">✓ 已掌握</span>
+        </div>
+        <h1 style="font-size:2.25rem; font-weight:700; color:var(--color-accent); margin-bottom:var(--space-sm);" id="rootName" itemprop="headline">-</h1>
+        <p style="font-size:1.15rem; color:var(--color-text-secondary);" id="rootMeaning" itemprop="description">-</p>
+      </header>
+
+      <section class="detail-section" itemprop="articleBody">
+        <h2 class="detail-section-title">详细说明</h2>
+        <p class="detail-description" id="rootDescription">-</p>
+      </section>
+
+      <section class="detail-section">
+        <h2 class="detail-section-title">应用示例</h2>
+        <div id="examplesContainer"></div>
+      </section>
+
+      <section class="detail-section">
+        <h2 class="detail-section-title">小测验</h2>
+        <div class="quiz-container" style="border-top:none; padding-top:0; margin-top:0;">
+          <p class="quiz-question" id="quizQuestion">-</p>
+          <div class="quiz-options" id="quizOptions"></div>
+        </div>
+      </section>
+
+      <div style="margin-top: var(--space-2xl);">
+        <button class="btn btn-primary" id="masterBtn" onclick="toggleMastered()">标记已掌握</button>
+      </div>
+    </article>
+
+    <!-- Navigation -->
+    <div class="learn-nav" style="margin-top: var(--space-2xl);">
+      <button class="btn btn-secondary" id="prevBtn" onclick="prevRoot()">← 上一个</button>
+      <button class="btn btn-secondary" id="nextBtn" onclick="nextRoot()">下一个 →</button>
+    </div>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="footer-tagline">一行代码，开启编程之旅</div>
+    <p class="footer-description">深入学习每个Python知识点</p>
+  </footer>
+
+  <script src="js/wordData.js"></script>
+  <script src="js/storage.js"></script>
+  <script>
+    (function() {
+      let currentId = null;
+
+      function getIdFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        return parseInt(params.get('id'), 10);
+      }
+
+      function findIndexById(id) {
+        return WordRoots.findIndex(r => r.id === id);
+      }
+
+      function loadDetail(id) {
+        const root = WordRoots.find(r => r.id === id);
+        if (!root) {
+          console.warn('知识点未找到，跳转回索引');
+          window.location.href = '/roots.html';
+          return;
+        }
+        currentId = id;
+
+        document.getElementById('rootName').textContent = root.root;
+        document.getElementById('rootMeaning').textContent = root.meaning;
+        document.getElementById('rootOrigin').textContent = root.origin;
+        document.getElementById('rootDescription').textContent = root.description;
+        document.getElementById('breadcrumbName').textContent = root.root;
+        document.title = `${root.root} - Python入门学习工坊`;
+
+        // Examples
+        const exContainer = document.getElementById('examplesContainer');
+        exContainer.innerHTML = '';
+        root.examples.forEach(ex => {
+          const card = document.createElement('div');
+          card.className = 'example-card';
+
+          const wordDiv = document.createElement('div');
+          wordDiv.className = 'example-word';
+          wordDiv.textContent = ex.word;
+
+          const meaningDiv = document.createElement('div');
+          meaningDiv.className = 'example-meaning';
+          meaningDiv.textContent = ex.meaning;
+
+          const explanationDiv = document.createElement('div');
+          explanationDiv.className = 'example-explanation';
+          explanationDiv.textContent = ex.explanation;
+
+          card.appendChild(wordDiv);
+          card.appendChild(meaningDiv);
+          card.appendChild(explanationDiv);
+          exContainer.appendChild(card);
+        });
+
+        // Quiz
+        const questionEl = document.getElementById('quizQuestion');
+        if (questionEl) questionEl.textContent = root.quiz.question;
+
+        const optionsEl = document.getElementById('quizOptions');
+        if (optionsEl) {
+          optionsEl.innerHTML = '';
+          root.quiz.options.forEach((opt, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'quiz-option';
+            btn.textContent = opt;
+            btn.onclick = () => checkAnswer(i, root.quiz);
+            optionsEl.appendChild(btn);
+          });
+        }
+
+        // Mastered
+        const progress = StorageManager.getProgress();
+        const isMastered = progress.masteredRoots.includes(root.id);
+        document.getElementById('masteredBadge').style.display = isMastered ? 'inline-block' : 'none';
+        document.getElementById('masterBtn').textContent = isMastered ? '取消掌握' : '标记已掌握';
+      }
+
+      window.toggleMastered = function() {
+        const progress = StorageManager.getProgress();
+        if (progress.masteredRoots.includes(currentId)) {
+          StorageManager.unmarkRootAsMastered(currentId);
+        } else {
+          StorageManager.markRootAsMastered(currentId);
+        }
+        loadDetail(currentId);
+      };
+
+      window.prevRoot = function() {
+        const idx = findIndexById(currentId);
+        if (idx > 0) {
+          window.location.href = `/root-detail.html?id=${WordRoots[idx - 1].id}`;
+        }
+      };
+
+      window.nextRoot = function() {
+        const idx = findIndexById(currentId);
+        if (idx < WordRoots.length - 1) {
+          window.location.href = `/root-detail.html?id=${WordRoots[idx + 1].id}`;
+        }
+      };
+
+      function checkAnswer(selected, quiz) {
+        const isCorrect = selected === quiz.correctAnswer;
+        const options = document.querySelectorAll('.quiz-option');
+        options.forEach((btn, i) => {
+          btn.disabled = true;
+          if (i === quiz.correctAnswer) btn.classList.add('correct');
+          else if (i === selected && !isCorrect) btn.classList.add('wrong');
+        });
+        showFeedback(isCorrect ? '✓ 回答正确！' : '✗ 答案错误，正确答案是：' + quiz.options[quiz.correctAnswer], isCorrect);
+      }
+
+      function showFeedback(message, isSuccess) {
+        const toast = document.createElement('div');
+        toast.className = `feedback-toast ${isSuccess ? 'success' : 'error'}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+      }
+
+      // Init
+      const id = getIdFromUrl();
+      if (id) {
+        loadDetail(id);
+      } else {
+        window.location.href = '/roots.html';
+      }
+    })();
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>

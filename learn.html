@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>渐进学习 - Python入门学习工坊</title>
+  <meta name="description" content="系统学习25个Python核心知识点，从基础语法到实战案例，一次一个概念，轻松掌握Python编程。">
+  <meta name="keywords" content="Python,学习,基础语法,函数,模块,实战案例">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0B1120">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/minimal.css">
+</head>
+<body>
+  <nav class="nav" role="navigation" aria-label="主导航">
+    <div class="nav-container">
+      <a href="/" class="nav-brand"><span class="brand-icon">🐍</span>Python学习工坊</a>
+      <ul class="nav-links">
+        <li><a href="/learn.html" class="nav-link active">学习</a></li>
+        <li><a href="/flashcard.html" class="nav-link">闪卡</a></li>
+        <li><a href="/roots.html" class="nav-link">索引</a></li>
+        <li><a href="/progress.html" class="nav-link">进度</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container" role="main">
+    <div class="page-header">
+      <h1 class="page-title">渐进学习</h1>
+      <p class="page-subtitle">一次一个知识点，循序渐进掌握Python</p>
+    </div>
+
+    <!-- Progress bar -->
+    <div style="margin-bottom: var(--space-xl);">
+      <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-sm);">
+        <span class="learn-progress-text" id="progressLabel">1 / 25</span>
+        <span class="learn-progress-text" id="masteredLabel">已掌握: 0</span>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar" style="width: 4%"></div>
+      </div>
+    </div>
+
+    <!-- Content Card -->
+    <article class="card" id="contentCard">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: var(--space-md);">
+        <div>
+          <span class="root-origin" id="rootOrigin">-</span>
+          <span class="mastered-badge" id="masteredBadge" style="display:none;">✓ 已掌握</span>
+        </div>
+      </div>
+
+      <h2 style="font-size:1.75rem; font-weight:700; color:var(--color-accent); margin-bottom:var(--space-sm);" id="rootName">-</h2>
+      <p style="font-size:1.1rem; color:var(--color-text-secondary); margin-bottom:var(--space-xl);" id="rootMeaning">-</p>
+
+      <div class="detail-section">
+        <h3 class="detail-section-title">详细说明</h3>
+        <p class="detail-description" id="rootDescription">-</p>
+      </div>
+
+      <div class="detail-section">
+        <h3 class="detail-section-title">应用示例</h3>
+        <div id="examplesContainer"></div>
+      </div>
+
+      <div class="quiz-container">
+        <h3 class="detail-section-title">小测验</h3>
+        <p class="quiz-question" id="quizQuestion">-</p>
+        <div class="quiz-options" id="quizOptions"></div>
+      </div>
+    </article>
+
+    <!-- Navigation -->
+    <div class="learn-nav">
+      <button class="btn btn-secondary" id="prevBtn" onclick="prevRoot()">← 上一个</button>
+      <div>
+        <button class="btn btn-primary btn-sm" id="masterBtn" onclick="toggleMastered()">标记已掌握</button>
+      </div>
+      <button class="btn btn-secondary" id="nextBtn" onclick="nextRoot()">下一个 →</button>
+    </div>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="footer-tagline">一行代码，开启编程之旅</div>
+    <p class="footer-description">渐进式学习Python的25个核心知识点</p>
+  </footer>
+
+  <script src="js/wordData.js"></script>
+  <script src="js/storage.js"></script>
+  <script>
+    (function() {
+      let currentIndex = 0;
+
+      function normalizeIndex(index, length) {
+        return ((index % length) + length) % length;
+      }
+
+      function loadRoot(index) {
+        const safeIndex = normalizeIndex(index, WordRoots.length);
+        const root = WordRoots[safeIndex];
+        currentIndex = safeIndex;
+
+        document.getElementById('rootName').textContent = root.root;
+        document.getElementById('rootMeaning').textContent = root.meaning;
+        document.getElementById('rootOrigin').textContent = root.origin;
+        document.getElementById('rootDescription').textContent = root.description;
+
+        // Examples
+        const exContainer = document.getElementById('examplesContainer');
+        exContainer.innerHTML = '';
+        root.examples.forEach(ex => {
+          const card = document.createElement('div');
+          card.className = 'example-card';
+
+          const wordDiv = document.createElement('div');
+          wordDiv.className = 'example-word';
+          wordDiv.textContent = ex.word;
+
+          const meaningDiv = document.createElement('div');
+          meaningDiv.className = 'example-meaning';
+          meaningDiv.textContent = ex.meaning;
+
+          const explanationDiv = document.createElement('div');
+          explanationDiv.className = 'example-explanation';
+          explanationDiv.textContent = ex.explanation;
+
+          card.appendChild(wordDiv);
+          card.appendChild(meaningDiv);
+          card.appendChild(explanationDiv);
+          exContainer.appendChild(card);
+        });
+
+        // Quiz
+        const questionEl = document.getElementById('quizQuestion');
+        if (questionEl) questionEl.textContent = root.quiz.question;
+
+        const optionsEl = document.getElementById('quizOptions');
+        if (optionsEl) {
+          optionsEl.innerHTML = '';
+          root.quiz.options.forEach((opt, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'quiz-option';
+            btn.textContent = opt;
+            btn.onclick = () => checkAnswer(i, root.quiz);
+            optionsEl.appendChild(btn);
+          });
+        }
+
+        // Progress
+        updateProgressUI();
+        StorageManager.updateProgress(safeIndex);
+
+        // Mastered state
+        const progress = StorageManager.getProgress();
+        const isMastered = progress.masteredRoots.includes(root.id);
+        const badge = document.getElementById('masteredBadge');
+        const btn = document.getElementById('masterBtn');
+        if (badge) badge.style.display = isMastered ? 'inline-block' : 'none';
+        if (btn) btn.textContent = isMastered ? '取消掌握' : '标记已掌握';
+      }
+
+      function updateProgressUI() {
+        const progress = StorageManager.getProgress();
+        const total = WordRoots.length;
+        const mastered = progress.masteredRoots.length;
+        const pct = Math.round(((currentIndex + 1) / total) * 100);
+
+        const label = document.getElementById('progressLabel');
+        const mLabel = document.getElementById('masteredLabel');
+        const bar = document.getElementById('progressBar');
+
+        if (label) label.textContent = `${currentIndex + 1} / ${total}`;
+        if (mLabel) mLabel.textContent = `已掌握: ${mastered}`;
+        if (bar) bar.style.width = `${pct}%`;
+      }
+
+      window.prevRoot = function() {
+        loadRoot(currentIndex - 1);
+      };
+
+      window.nextRoot = function() {
+        loadRoot(currentIndex + 1);
+      };
+
+      window.toggleMastered = function() {
+        const root = WordRoots[currentIndex];
+        const progress = StorageManager.getProgress();
+        if (progress.masteredRoots.includes(root.id)) {
+          StorageManager.unmarkRootAsMastered(root.id);
+        } else {
+          StorageManager.markRootAsMastered(root.id);
+        }
+        loadRoot(currentIndex);
+      };
+
+      function checkAnswer(selected, quiz) {
+        const isCorrect = selected === quiz.correctAnswer;
+        const options = document.querySelectorAll('.quiz-option');
+        options.forEach((btn, i) => {
+          btn.disabled = true;
+          if (i === quiz.correctAnswer) btn.classList.add('correct');
+          else if (i === selected && !isCorrect) btn.classList.add('wrong');
+        });
+        showFeedback(isCorrect ? '✓ 回答正确！' : '✗ 答案错误，正确答案是：' + quiz.options[quiz.correctAnswer], isCorrect);
+      }
+
+      function showFeedback(message, isSuccess) {
+        const toast = document.createElement('div');
+        toast.className = `feedback-toast ${isSuccess ? 'success' : 'error'}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+      }
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') prevRoot();
+        if (e.key === 'ArrowRight') nextRoot();
+      });
+
+      // Init
+      const saved = StorageManager.getProgress();
+      loadRoot(saved.currentRootIndex || 0);
+    })();
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>

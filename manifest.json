@@ -1,0 +1,25 @@
+{
+  "name": "Python入门学习工坊",
+  "short_name": "Python学习",
+  "description": "25个核心知识点，从零开始掌握Python编程。基础语法、函数、模块、实战案例，渐进式学习让编程触手可及。",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B1120",
+  "theme_color": "#0B1120",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "lang": "zh-CN"
+}

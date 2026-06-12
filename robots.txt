@@ -1,0 +1,10 @@
+# robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://python-workshop.vercel.app/sitemap.xml
+
+# Disallow
+Disallow: /js/
+Disallow: /css/

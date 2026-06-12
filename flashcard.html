@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>闪卡复习 - Python入门学习工坊</title>
+  <meta name="description" content="用闪卡快速记忆Python核心知识点，支持键盘快捷键翻转与切换。">
+  <meta name="keywords" content="Python,闪卡,记忆,复习,知识点">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0B1120">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/minimal.css">
+</head>
+<body>
+  <nav class="nav" role="navigation" aria-label="主导航">
+    <div class="nav-container">
+      <a href="/" class="nav-brand"><span class="brand-icon">🐍</span>Python学习工坊</a>
+      <ul class="nav-links">
+        <li><a href="/learn.html" class="nav-link">学习</a></li>
+        <li><a href="/flashcard.html" class="nav-link active">闪卡</a></li>
+        <li><a href="/roots.html" class="nav-link">索引</a></li>
+        <li><a href="/progress.html" class="nav-link">进度</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container" role="main">
+    <div class="page-header">
+      <h1 class="page-title">闪卡复习</h1>
+      <p class="page-subtitle">翻转卡片，快速记忆Python核心知识点</p>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-lg);">
+      <span class="learn-progress-text" id="cardProgress">1 / 25</span>
+      <span class="learn-progress-text" id="masteredCount">已掌握: 0</span>
+    </div>
+
+    <div class="flashcard-container">
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="flashcard-inner">
+          <div class="flashcard-front">
+            <div class="flashcard-root" id="frontRoot">-</div>
+            <div class="flashcard-meaning" id="frontMeaning">-</div>
+            <div class="flashcard-origin" id="frontOrigin">-</div>
+            <div class="flashcard-hint">点击翻转 | 空格键翻转</div>
+          </div>
+          <div class="flashcard-back">
+            <div class="flashcard-root" id="backRoot">-</div>
+            <div class="flashcard-description" id="backDescription">-</div>
+            <div class="flashcard-examples" id="backExamples"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-group" style="margin-top: var(--space-xl);">
+      <button class="btn btn-secondary" onclick="prevCard()">← 上一个</button>
+      <button class="btn btn-primary btn-sm" id="masterBtn" onclick="toggleMastered()">标记已掌握</button>
+      <button class="btn btn-secondary" onclick="nextCard()">下一个 →</button>
+    </div>
+
+    <div style="text-align:center; margin-top: var(--space-lg); color: var(--color-text-tertiary); font-size: 0.85rem;">
+      键盘快捷键：← → 切换 | 空格 翻转
+    </div>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="footer-tagline">一行代码，开启编程之旅</div>
+    <p class="footer-description">闪卡模式快速记忆Python核心知识点</p>
+  </footer>
+
+  <script src="js/wordData.js"></script>
+  <script src="js/storage.js"></script>
+  <script>
+    (function() {
+      let currentIndex = 0;
+      let isFlipped = false;
+
+      function normalizeIndex(index, length) {
+        return ((index % length) + length) % length;
+      }
+
+      function loadCard(index) {
+        const safeIndex = normalizeIndex(index, WordRoots.length);
+        const root = WordRoots[safeIndex];
+        currentIndex = safeIndex;
+
+        // Reset flip
+        if (isFlipped) {
+          document.getElementById('flashcard').classList.remove('flipped');
+          isFlipped = false;
+        }
+
+        // Front
+        document.getElementById('frontRoot').textContent = root.root;
+        document.getElementById('frontMeaning').textContent = root.meaning;
+        document.getElementById('frontOrigin').textContent = root.origin;
+
+        // Back
+        document.getElementById('backRoot').textContent = root.root;
+        document.getElementById('backDescription').textContent = root.description;
+
+        // Back examples
+        const exContainer = document.getElementById('backExamples');
+        exContainer.innerHTML = '';
+        root.examples.forEach(ex => {
+          const item = document.createElement('div');
+          item.className = 'flashcard-example-item';
+
+          const wordEl = document.createElement('div');
+          wordEl.className = 'example-word';
+          wordEl.textContent = ex.word;
+
+          const explanationEl = document.createElement('div');
+          explanationEl.className = 'example-explanation';
+          explanationEl.textContent = ex.explanation;
+
+          item.appendChild(wordEl);
+          item.appendChild(explanationEl);
+          exContainer.appendChild(item);
+        });
+
+        // Progress
+        const progress = StorageManager.getProgress();
+        const total = WordRoots.length;
+        document.getElementById('cardProgress').textContent = `${safeIndex + 1} / ${total}`;
+        document.getElementById('masteredCount').textContent = `已掌握: ${progress.masteredRoots.length}`;
+
+        // Mastered state
+        const isMastered = progress.masteredRoots.includes(root.id);
+        document.getElementById('masterBtn').textContent = isMastered ? '取消掌握' : '标记已掌握';
+      }
+
+      window.flipCard = function() {
+        const card = document.getElementById('flashcard');
+        card.classList.toggle('flipped');
+        isFlipped = !isFlipped;
+      };
+
+      window.prevCard = function() { loadCard(currentIndex - 1); };
+      window.nextCard = function() { loadCard(currentIndex + 1); };
+
+      window.toggleMastered = function() {
+        const root = WordRoots[currentIndex];
+        const progress = StorageManager.getProgress();
+        if (progress.masteredRoots.includes(root.id)) {
+          StorageManager.unmarkRootAsMastered(root.id);
+        } else {
+          StorageManager.markRootAsMastered(root.id);
+        }
+        loadCard(currentIndex);
+      };
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') prevCard();
+        if (e.key === 'ArrowRight') nextCard();
+        if (e.key === ' ') { e.preventDefault(); flipCard(); }
+      });
+
+      // Init
+      const saved = StorageManager.getProgress();
+      loadCard(saved.currentRootIndex || 0);
+    })();
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
