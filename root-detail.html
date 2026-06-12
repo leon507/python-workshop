@@ -9,7 +9,7 @@
   <meta name="keywords" content="Python,知识点,详细说明,代码示例,测试">
   <meta name="robots" content="index, follow">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
-  <link rel="manifest" href="/manifest.json">
+  <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0B1120">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,12 +19,12 @@
 <body>
   <nav class="nav" role="navigation" aria-label="主导航">
     <div class="nav-container">
-      <a href="/" class="nav-brand"><span class="brand-icon">🐍</span>Python学习工坊</a>
+      <a href="./" class="nav-brand"><span class="brand-icon">🐍</span>Python学习工坊</a>
       <ul class="nav-links">
-        <li><a href="/learn.html" class="nav-link">学习</a></li>
-        <li><a href="/flashcard.html" class="nav-link">闪卡</a></li>
-        <li><a href="/roots.html" class="nav-link">索引</a></li>
-        <li><a href="/progress.html" class="nav-link">进度</a></li>
+        <li><a href="learn.html" class="nav-link">学习</a></li>
+        <li><a href="flashcard.html" class="nav-link">闪卡</a></li>
+        <li><a href="roots.html" class="nav-link">索引</a></li>
+        <li><a href="progress.html" class="nav-link">进度</a></li>
       </ul>
     </div>
   </nav>
@@ -32,9 +32,9 @@
   <main class="container" role="main" style="padding-top: var(--space-2xl); padding-bottom: var(--space-4xl);">
     <!-- Breadcrumb -->
     <div class="breadcrumb">
-      <a href="/">首页</a>
+      <a href="./">首页</a>
       <span class="breadcrumb-separator">/</span>
-      <a href="/roots.html">索引</a>
+      <a href="roots.html">索引</a>
       <span class="breadcrumb-separator">/</span>
       <span id="breadcrumbName">-</span>
     </div>
@@ -103,7 +103,7 @@
         const root = WordRoots.find(r => r.id === id);
         if (!root) {
           console.warn('知识点未找到，跳转回索引');
-          window.location.href = '/roots.html';
+          window.location.href = 'roots.html';
           return;
         }
         currentId = id;
@@ -176,14 +176,14 @@
       window.prevRoot = function() {
         const idx = findIndexById(currentId);
         if (idx > 0) {
-          window.location.href = `/root-detail.html?id=${WordRoots[idx - 1].id}`;
+          window.location.href = `root-detail.html?id=${WordRoots[idx - 1].id}`;
         }
       };
 
       window.nextRoot = function() {
         const idx = findIndexById(currentId);
         if (idx < WordRoots.length - 1) {
-          window.location.href = `/root-detail.html?id=${WordRoots[idx + 1].id}`;
+          window.location.href = `root-detail.html?id=${WordRoots[idx + 1].id}`;
         }
       };
 
@@ -211,7 +211,7 @@
       if (id) {
         loadDetail(id);
       } else {
-        window.location.href = '/roots.html';
+        window.location.href = 'roots.html';
       }
     })();
   </script>

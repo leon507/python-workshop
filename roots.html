@@ -9,7 +9,7 @@
   <meta name="keywords" content="Python,索引,知识点,基础语法,函数,模块,实战案例">
   <meta name="robots" content="index, follow">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
-  <link rel="manifest" href="/manifest.json">
+  <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0B1120">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,12 +19,12 @@
 <body>
   <nav class="nav" role="navigation" aria-label="主导航">
     <div class="nav-container">
-      <a href="/" class="nav-brand"><span class="brand-icon">🐍</span>Python学习工坊</a>
+      <a href="./" class="nav-brand"><span class="brand-icon">🐍</span>Python学习工坊</a>
       <ul class="nav-links">
-        <li><a href="/learn.html" class="nav-link">学习</a></li>
-        <li><a href="/flashcard.html" class="nav-link">闪卡</a></li>
-        <li><a href="/roots.html" class="nav-link active">索引</a></li>
-        <li><a href="/progress.html" class="nav-link">进度</a></li>
+        <li><a href="learn.html" class="nav-link">学习</a></li>
+        <li><a href="flashcard.html" class="nav-link">闪卡</a></li>
+        <li><a href="roots.html" class="nav-link active">索引</a></li>
+        <li><a href="progress.html" class="nav-link">进度</a></li>
       </ul>
     </div>
   </nav>
@@ -90,7 +90,7 @@
       function createRootCard(root, isMastered) {
         const card = document.createElement('div');
         card.className = `root-card ${isMastered ? 'mastered' : ''}`;
-        card.onclick = () => { window.location.href = `/root-detail.html?id=${root.id}`; };
+        card.onclick = () => { window.location.href = `root-detail.html?id=${root.id}`; };
 
         const nameDiv = document.createElement('div');
         nameDiv.className = 'root-name';
